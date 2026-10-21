@@ -458,9 +458,9 @@ static void discoverMessageClasses(void) {
 
 // ---- Part 2c: AudioServices 声音/振动检测 ----
 %hookf(void, AudioServicesPlaySystemSound, SystemSoundID inSystemSoundID) {
-    qrpLog(@"AudioServicesPlaySystemSound: %u (state=%d)",
+    qrpLog(@"AudioServicesPlaySystemSound: %u (state=%ld)",
            (unsigned)inSystemSoundID,
-           [UIApplication sharedApplication].applicationState);
+           (long)[UIApplication sharedApplication].applicationState);
     %orig;
 
     // 振动 (4095) 或用户自定义提示音 → 可能收到新消息

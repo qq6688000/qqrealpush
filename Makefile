@@ -8,6 +8,6 @@ TWEAK_NAME = QQRealPush
 
 QQRealPush_FILES = Tweak.x
 QQRealPush_FRAMEWORKS = UserNotifications UIKit AudioToolbox
-QQRealPush_CFLAGS = -fobjc-arc -Wno-unguarded-availability-new -Wno-deprecated-declarations
+QQRealPush_CFLAGS = -fobjc-arc -Wno-unguarded-availability-new -Wno-deprecated-declarations -Wno-format
 
 include $(THEOS_MAKE_PATH)/tweak.mk
