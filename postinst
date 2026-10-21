@@ -1,0 +1,43 @@
+#!/bin/sh
+set -e
+
+JB=/var/jb
+[ -d "$JB" ] || JB=""
+
+DYLIB="$JB/Library/MobileSubstrate/DynamicLibraries/QQRealPush.dylib"
+PLIST="$JB/Library/MobileSubstrate/DynamicLibraries/QQRealPush.plist"
+TI="$JB/usr/lib/TweakInject"
+
+chmod 755 "$DYLIB" 2>/dev/null || true
+
+if [ -d "$TI" ] && [ -f "$DYLIB" ] && [ ! -e "$TI/QQRealPush.dylib" ]; then
+    ln -sf "$DYLIB" "$TI/QQRealPush.dylib" 2>/dev/null || true
+    ln -sf "$PLIST" "$TI/QQRealPush.plist" 2>/dev/null || true
+fi
+
+# Write default preferences (all features enabled) only if no existing config
+PREFS="/var/mobile/Library/Preferences/com.qq.realpush.plist"
+if [ ! -f "$PREFS" ]; then
+    mkdir -p "$(dirname "$PREFS")"
+    cat > "$PREFS" <<'PLISTEOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Enabled</key><true/>
+    <key>FrontBanner</key><true/>
+    <key>ShowContent</key><true/>
+    <key>OnlyOthers</key><true/>
+    <key>Sound</key><true/>
+    <key>ClearOnOpen</key><true/>
+</dict>
+</plist>
+PLISTEOF
+    chown mobile:mobile "$PREFS" 2>/dev/null || true
+fi
+
+killall QQ 2>/dev/null || true
+
+echo "QQRealPush installed (all features enabled by default)."
+echo "Ensure: Settings -> Notifications -> QQ -> Allow Notifications is ON."
+exit 0

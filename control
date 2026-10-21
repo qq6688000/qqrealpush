@@ -1,0 +1,9 @@
+Package: com.qq.realpush
+Name: QQRealPush
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: QQ 前后台实时推送横幅：不依赖苹果远程推送，前台后台均弹出本地通知横幅。
+Maintainer: WorkBuddy
+Author: WorkBuddy
+Section: Tweaks
+Depends: firmware (>= 15.0), ellekit | mobilesubstrate
